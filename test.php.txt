@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Electricity Bill Calculator</title>
+  <!-- Include the CSS framework -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.6.3/css/foundation.min.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Electricity Bill Calculator</h1>
+
+    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+      <div class="grid-x grid-padding-x">
+        <div class="cell">
+          <label for="voltage">Voltage (V):</label>
+          <input type="number" id="voltage" name="voltage" step="0.01" required>
+        </div>
+        <div class="cell">
+          <label for="current">Current (A):</label>
+          <input type="number" id="current" name="current" step="0.01" required>
+        </div>
+        <div class="cell">
+          <label for="rate">Current Rate:</label>
+          <input type="number" id="rate" name="rate" step="0.01" required>
+        </div>
+      </div>
+      <div class="cell">
+        <button type="submit" class="button">Calculate</button>
+      </div>
+    </form>
+
+    <?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+      // Get the input values
+      $voltage = $_POST["voltage"];
+      $current = $_POST["current"];
+      $rate = $_POST["rate"];
+
+      // Calculate power, energy, and total charge
+      $power = $voltage * $current;
+      $energy = ($power * 1 * 1000) / 3600000; // assuming 1 hour
+      $total = $energy * ($rate / 100);
+
+      // Display the results
+      echo "<h2>Results</h2>";
+      echo "<p>Power: " . $power . " Watts</p>";
+      echo "<p>Energy: " . $energy . " kWh</p>";
+      echo "<p>Total Charge: $" . $total . "</p>";
+    }
+    ?>
+  </div>
+</body>
+</html>
